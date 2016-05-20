@@ -1,3 +1,6 @@
+#ifndef GAME
+#define GAME
+
 #include <SFML/Graphics.hpp>
 
 // updates 60 times per frame
@@ -25,3 +28,5 @@ class Game
 			bool 				mIsMovingLeft;
 
 };
+
+#endif
