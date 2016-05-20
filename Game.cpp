@@ -2,14 +2,19 @@
 #include "Game.hpp"
 
 Game::Game()
-:	mWindow(sf::VideoMode(640, 480), "hi im a cercal")
+:	mWindow(sf::VideoMode(640, 480), "hi im a elizabeth")
+,	mTexture()
 ,	mPlayer()
 {
 	mIsMovingUp = mIsMovingDown = mIsMovingLeft = mIsMovingRight = false;
-	mPlayer.setRadius(40.f);
+	if(!mTexture.loadFromFile("Media/Textures/elizabeth.png"))
+	{
+			std::cerr << "cant open image" << std::endl;
+	}
+	mPlayer.setTexture(mTexture);
 	mPlayer.setPosition(100.f, 100.f);
-	mPlayer.setFillColor(sf::Color::Cyan);
 }
+
 
 void Game::Run()
 {
