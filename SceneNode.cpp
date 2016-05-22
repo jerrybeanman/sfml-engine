@@ -1,4 +1,5 @@
 #include "SceneNode.hpp"
+#include <iostream>
 
 SceneNode::SceneNode() : mParent(nullptr)
 {
@@ -21,3 +22,43 @@ SceneNode::Ptr SceneNode::detachChild(const SceneNode& node)
 
 	return result;
 }
+
+void SceneNode::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	states.transform *= getTransform();
+
+	drawCurrent(target, states);
+
+	for(const Ptr& child : mChildren)
+	{
+		child->draw(target, states);
+	}
+}
+
+void SceneNode::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	// do nothing by default
+	std::cout << target.getSize().x << std::endl;
+	std::cout << states.shader << std::endl;
+}
+
+void SceneNode::update(sf::Time deltaTime)
+{
+	updateCurrent(deltaTime);
+	updateChildren(deltaTime);
+}
+
+void SceneNode::updateCurrent(sf::Time deltaTime)
+{
+	std::cout << deltaTime.asMicroseconds() << std::endl;	
+}
+
+void SceneNode::updateChildren(sf::Time deltaTime)
+{
+	for(const Ptr& child : mChildren)
+	{
+		child->update(deltaTime);
+	}
+}
+
+
