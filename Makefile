@@ -1,9 +1,11 @@
+#makefile
+#author: Jerry Jia
 
 CC				= 		g++
 NAME			=		engine
 FLAGS			= 		-std=c++11 -Wall 
 LIBRARIES		= 		-lsfml-graphics -lsfml-window -lsfml-system
-S_FILES			= 		main.cpp Game.cpp 
+S_FILES			= 		main.cpp Game.cpp TextureHolder.cpp Aircraft.cpp Entity.cpp SceneNode.cpp
 OBJECT_FILES	=		$(S_FILES:.cpp=.o)
 META_FILES		=		$(S_FILES:.cpp=.cpp.meta)
 

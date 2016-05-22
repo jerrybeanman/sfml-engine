@@ -32,7 +32,7 @@ template <typename Resource, typename Identifier>
 Resource& ResourceHolder<Resource, Identifier>::get(Identifier id)
 {
 	auto found = mResourceMap.find(id);
-	assert(found != mTexture.endl());
+	assert(found != mResourceMap.endl());
 
 	return *found->second;
 }
