@@ -1,18 +1,22 @@
-#include <iostream>
 #include "Game.hpp"
+#include "StringHelpers.hpp"
+
+#include <iostream>
 
 Game::Game()
 :	mWindow(sf::VideoMode(640, 480), "hi im a elizabeth")
-,	mTexture()
-,	mPlayer()
+, 	mWorld(mWindow)
+, 	mFont()
+,	mStatisticsText()
+, 	mStatisticsUpdateTime()
+, 	mStatisticsNumFrames(0)
 {
-	mIsMovingUp = mIsMovingDown = mIsMovingLeft = mIsMovingRight = false;
-	if(!mTexture.loadFromFile("Media/Textures/elizabeth.png"))
-	{
-		std::cerr << "cant open image" << std::endl;
-	}
-	mPlayer.setTexture(mTexture);
-	mPlayer.setPosition(100.f, 100.f);
+
+	mFont.loadFromFile("Media/Sansation.ttf");
+	mStatisticsText.setFont(mFont);
+	mStatisticsText.setPosition(5.f, 5.f);
+	mStatisticsText.setCharacterSize(10);
+
 }
 
 
@@ -23,14 +27,16 @@ void Game::Run()
 	
 	while(mWindow.isOpen())
 	{
-		processEvents();
-		timeSinceLastUpdate += clock.restart();
+		sf::Time elapsedTime = clock.restart();
+		timeSinceLastUpdate += elapsedTime;
 		while(timeSinceLastUpdate > TimePerFrame)
 		{
 			processEvents();
 			timeSinceLastUpdate -= TimePerFrame;
 			update(TimePerFrame);
 		}
+
+		updateStatistics(elapsedTime);
 		render();
 	}
 }
@@ -57,44 +63,38 @@ void Game::processEvents()
 
 void Game::update(sf::Time deltaTime)
 {
-	sf::Vector2f movement(0.f, 0.f);
-	if(mIsMovingUp)
-		movement.y -= 100.f;
-	if(mIsMovingDown)
-		movement.y += 100.f;
-	if(mIsMovingLeft)
-		movement.x -= 100.f;
-	if(mIsMovingRight)
-		movement.x += 100.f;
-
-	mPlayer.move(movement * deltaTime.asSeconds());
+	mWorld.update(deltaTime);
 }
 
 void Game::render()
 {
 	mWindow.clear();
-	mWindow.draw(mPlayer);
+	mWorld.draw();
+
+	mWindow.setView(mWindow.getDefaultView());
+	mWindow.draw(mStatisticsText);
 	mWindow.display();
+}
+
+void Game::updateStatistics(sf::Time elapsedTime)
+{
+	mStatisticsUpdateTime += elapsedTime;
+	mStatisticsNumFrames++;
+
+	if(mStatisticsUpdateTime >= sf::seconds(1.0f))
+	{
+		mStatisticsText.setString("Frames / Second = " + toString(mStatisticsNumFrames) + "\n" +
+									"Time / Update = " + toString(mStatisticsUpdateTime.asMicroseconds() / mStatisticsNumFrames) + "us");
+
+		mStatisticsUpdateTime -= sf::seconds(1.0f);
+		mStatisticsNumFrames = 0;
+
+	}
 }
 
 void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
 {
-	if(key == sf::Keyboard::W)
-	{
-		mIsMovingUp 	= isPressed;
-	}else
-	if(key == sf::Keyboard::S)
-	{
-		mIsMovingDown 	= isPressed;
-	}else
-	if(key == sf::Keyboard::D)
-	{
-		mIsMovingRight 	= isPressed;
-	}else
-	if(key == sf::Keyboard::A)
-	{
-		mIsMovingLeft 	= isPressed;
-	}
+	std::cout << key << isPressed << std::endl;
 }
 
 

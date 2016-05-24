@@ -1,6 +1,8 @@
 #ifndef GAME
 #define GAME
 
+#include "World.hpp"
+
 #include <SFML/Graphics.hpp>
 
 // updates 60 times per frame
@@ -16,16 +18,18 @@ class Game
 			void				processEvents();
 			void 				update(sf::Time deltaTime);
 			void 				render();
+
+			void 				updateStatistics(sf::Time elapsedTime);
 			void 				handlePlayerInput(sf::Keyboard::Key, bool isPressed);
 
 		private:
 			sf::RenderWindow 	mWindow;
-			sf::Texture 		mTexture;
-			sf::Sprite 			mPlayer;
-			bool 				mIsMovingUp;
-			bool 				mIsMovingDown;
-			bool 				mIsMovingRight;
-			bool 				mIsMovingLeft;
+			World 				mWorld;
+
+			sf::Font 			mFont;
+			sf::Text 			mStatisticsText;
+			sf::Time 			mStatisticsUpdateTime;
+			std::size_t			mStatisticsNumFrames;
 
 };
 

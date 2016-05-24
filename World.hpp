@@ -3,6 +3,7 @@
 
 #include "ResourceIdentifiers.hpp"
 #include "SceneNode.hpp"
+#include "SpriteNode.hpp"
 #include "Aircraft.hpp"
 
 #include <SFML/System/NonCopyable.hpp>
