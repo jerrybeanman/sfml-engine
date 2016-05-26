@@ -75,7 +75,7 @@ void World::buildScene()
 
 	// Add two escorting aircrafts, placed relatively to the main player plane
 	// Plane on the left
-	std::unique_ptr<Aircraft> leftEscort(new Aircraft(Aircraft::Desert, mTextures));
+	std::unique_ptr<Aircraft> leftEscort(new Aircraft(Aircraft::Raptor, mTextures));
 	leftEscort->setPosition(-80.f, 50.f);
 	mPlayerAircraft->attachChild(std::move(leftEscort));
 
